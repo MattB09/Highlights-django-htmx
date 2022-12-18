@@ -1,0 +1,13 @@
+{% extends 'core/_base.html' %}
+
+{% block content %}
+<h1 class="text-lg">Login</h1>
+
+<form method="post" action="." class="">
+  {% csrf_token %}
+
+  {{ form.as_p }}
+
+  <button class="mt-2 py-4 px-6 bg-indigo-500 text-white rounded">Submit</button>
+</form>
+{% endblock content %}

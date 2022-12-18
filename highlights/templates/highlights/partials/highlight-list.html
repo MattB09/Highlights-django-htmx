@@ -1,13 +1,30 @@
 <div id="highlight-list" class="flex flex-col">
+  
   {% for highlight in highlights %}
-  <div class="flex flex-col my-4 shadow-lg mx-4 p-4 rounded">
-    <pre class="whitespace-pre-wrap">{{ highlight.text }}</pre>
-    <p>{{ highlight.book.title }}</p>
-    <p>{{ highlight.book.author.name }}</p>
-    {% if highlight.tags.all %}
-      <p>{{ highlight.tags.all|join:", " }}</p>
-    {% endif %}
-  </div>
-    
+    <div id="highlight-{{highlight.id}}" class="flex flex-col my-4 p-4 shadow-lg rounded space-y-2 bg-gray-50">
+      <pre class="whitespace-pre-wrap font-inherit mb-4 text-lg">"{{ highlight.text }}"</pre>
+      <p class="italic">{{ highlight.book.title }}</p>
+      <p>{{ highlight.book.author.name }}</p>
+      {% if highlight.tags.all %}
+        <div class="flex space-x-1">
+          {% for tag in highlight.tags.all %}
+            <span class="bg-sky-100 text-sky-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded">{{ tag }}</span>
+          {% endfor %}
+        </div>
+      {% endif %}
+      <div class="flex space-x-2">
+        <a href="{% url 'highlights:edit' highlight.pk %}"
+          class="py-2 px-3 text-sm text-indigo-800 bg-indigo-50 hover:bg-indigo-200 rounded-xl"
+        >
+          Edit
+        </a>
+        <button 
+          hx-get="{% url 'highlights:confirm-delete' highlight.pk %}" 
+          hx-target="body"
+          hx-swap="beforeend"
+          class="py-2 px-3 text-sm text-red-800 bg-red-50 hover:bg-red-200 rounded-xl"
+        >Delete</button>
+      </div>
+    </div>
   {% endfor %}
 </div>

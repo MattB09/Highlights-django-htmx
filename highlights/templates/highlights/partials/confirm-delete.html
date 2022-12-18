@@ -1,0 +1,19 @@
+{% extends 'core/partials/modal.html' %}
+
+{% block modal_title %}
+Confirm Delete
+{% endblock %}
+
+{% block modal_body %}
+<p>Are you sure you want to delete this highlight?</p>
+{% endblock %}
+
+{% block confirm_action %}
+hx-delete="{% url 'highlights:delete' pk %}"
+hx-target="#highlight-{{pk}}"
+hx-swap="outerHTML"
+{% endblock %}
+
+{% block confirm_text %}
+Delete
+{% endblock %}
