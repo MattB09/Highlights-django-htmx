@@ -27,6 +27,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+LOGIN_REDIRECT_URL = "/highlights"
+LOGIN_URL = "/user/login"
+LOGOUT_REDIRECT_URL = "/"
 
 # Application definition
 
@@ -44,6 +47,7 @@ INSTALLED_APPS = [
     # my apps
     "core",
     "highlights",
+    "userprofile"
 ]
 
 MIDDLEWARE = [
