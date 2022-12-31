@@ -9,56 +9,106 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Author',
+            name="Author",
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('name', models.CharField(db_index=True, max_length=200)),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                ("name", models.CharField(db_index=True, max_length=200)),
             ],
             options={
-                'ordering': ['name'],
+                "ordering": ["name"],
             },
         ),
         migrations.CreateModel(
-            name='Book',
+            name="Book",
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('title', models.CharField(db_index=True, max_length=200)),
-                ('book_no', models.CharField(default=1, max_length=2)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('author', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='books', to='highlights.author')),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                ("title", models.CharField(db_index=True, max_length=200)),
+                ("book_no", models.CharField(default=1, max_length=2)),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                (
+                    "author",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="books",
+                        to="highlights.author",
+                    ),
+                ),
             ],
             options={
-                'ordering': ['book_no'],
+                "ordering": ["book_no"],
             },
         ),
         migrations.CreateModel(
-            name='Highlight',
+            name="Highlight",
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('text', models.TextField(db_index=True)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('book', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='highlights', to='highlights.book')),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                ("text", models.TextField(db_index=True)),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                (
+                    "book",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="highlights",
+                        to="highlights.book",
+                    ),
+                ),
             ],
             options={
-                'ordering': ['text'],
+                "ordering": ["text"],
             },
         ),
         migrations.CreateModel(
-            name='Tag',
+            name="Tag",
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('tag', models.CharField(db_index=True, max_length=255)),
-                ('highlights', models.ManyToManyField(related_name='tags', to='highlights.highlight')),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                ("tag", models.CharField(db_index=True, max_length=255)),
+                (
+                    "highlights",
+                    models.ManyToManyField(
+                        related_name="tags", to="highlights.highlight"
+                    ),
+                ),
             ],
             options={
-                'ordering': ['tag'],
+                "ordering": ["tag"],
             },
         ),
     ]

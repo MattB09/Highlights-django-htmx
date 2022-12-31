@@ -9,44 +9,64 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('highlights', '0001_initial'),
+        ("highlights", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='author',
-            name='user',
-            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, related_name='authors', to=settings.AUTH_USER_MODEL),
+            model_name="author",
+            name="user",
+            field=models.ForeignKey(
+                default=1,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="authors",
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
         migrations.AddField(
-            model_name='book',
-            name='user',
-            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, related_name='books', to=settings.AUTH_USER_MODEL),
+            model_name="book",
+            name="user",
+            field=models.ForeignKey(
+                default=1,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="books",
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
         migrations.AddField(
-            model_name='highlight',
-            name='user',
-            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, related_name='highlights', to=settings.AUTH_USER_MODEL),
+            model_name="highlight",
+            name="user",
+            field=models.ForeignKey(
+                default=1,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="highlights",
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
         migrations.AddField(
-            model_name='tag',
-            name='user',
-            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, related_name='tags', to=settings.AUTH_USER_MODEL),
+            model_name="tag",
+            name="user",
+            field=models.ForeignKey(
+                default=1,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="tags",
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
         migrations.AlterUniqueTogether(
-            name='author',
-            unique_together={('name', 'user')},
+            name="author",
+            unique_together={("name", "user")},
         ),
         migrations.AlterUniqueTogether(
-            name='book',
-            unique_together={('title', 'user')},
+            name="book",
+            unique_together={("title", "user")},
         ),
         migrations.AlterUniqueTogether(
-            name='highlight',
-            unique_together={('text', 'user')},
+            name="highlight",
+            unique_together={("text", "user")},
         ),
         migrations.AlterUniqueTogether(
-            name='tag',
-            unique_together={('tag', 'user')},
+            name="tag",
+            unique_together={("tag", "user")},
         ),
     ]

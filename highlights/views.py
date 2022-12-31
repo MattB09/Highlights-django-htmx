@@ -1,8 +1,8 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import mixins
+from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import generic
-from django.contrib import messages
 from django.http import HttpResponse
 
 from highlights import models
@@ -10,7 +10,7 @@ from highlights import forms
 
 
 class List(mixins.LoginRequiredMixin, generic.TemplateView):
-    template_name = 'highlights/list.html'
+    template_name = "highlights/list.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -22,14 +22,10 @@ class SearchViewAPI(mixins.LoginRequiredMixin, generic.ListView):
     model = models.Highlight
     template_name = "highlights/partials/highlight-list.html"
     context_object_name = "highlights"
-    
+
     def get_queryset(self):
-        qs = super().get_queryset()
-        search_text = self.request.GET.get("query")
-        qs = qs.filter(user=self.request.user)
-        if search_text:
-            qs = qs.filter(text__icontains=search_text)
-        return qs
+        query = self.request.GET.get("query")
+        return models.Highlight.objects.search(query)
 
 
 class Add(mixins.LoginRequiredMixin, generic.FormView):
@@ -47,7 +43,7 @@ class Add(mixins.LoginRequiredMixin, generic.FormView):
             text=form.cleaned_data["text"],
             book=form.cleaned_data["book"],
             tags=form.cleaned_data["tags"],
-            user=self.request.user
+            user=self.request.user,
         )
         messages.add_message(self.request, messages.INFO, f"Highlight added!")
         return redirect("highlights:list")
@@ -67,7 +63,7 @@ class Edit(mixins.LoginRequiredMixin, generic.FormView):
         initial["book"] = self.highlight.book
         initial["tags"] = self.highlight.tags.all()
         return initial
-        
+
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         kwargs["tags"] = models.Tag.objects.filter(user=self.request.user)
@@ -100,12 +96,12 @@ def edit(request, pk):
             print(errors)
             for error in errors:
                 problems = [str(problem) for problem in errors[error]]
-                m = ','.join(problems)
+                m = ",".join(problems)
                 print("m", m)
                 messages.add_message(request, messages.INFO, f"{error}: {m}")
 
     form = forms.AddHighlight(instance=highlight)
-    return render(request, 'highlights/edit.html', {"form": form})
+    return render(request, "highlights/edit.html", {"form": form})
 
 
 def confirm_delete(request, pk):
@@ -114,9 +110,6 @@ def confirm_delete(request, pk):
 
 @login_required
 def delete(request, pk):
-    highlight = get_object_or_404(
-        models.Highlight, user=request.user, pk=pk
-    )
+    highlight = get_object_or_404(models.Highlight, user=request.user, pk=pk)
     highlight.delete()
     return HttpResponse()
-

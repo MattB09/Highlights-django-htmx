@@ -18,9 +18,9 @@ def signup(request):
             print(errors)
             for error in errors:
                 problems = [str(problem) for problem in errors[error]]
-                m = ','.join(problems)
+                m = ",".join(problems)
                 print("m", m)
                 messages.add_message(request, messages.INFO, f"{error}: {m}")
 
     form = UserCreationForm()
-    return render(request, 'userprofile/signup.html', {"form": form})
+    return render(request, "userprofile/signup.html", {"form": form})
