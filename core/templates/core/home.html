@@ -1,5 +1,8 @@
 {% extends 'core/_base.html' %}
 
 {% block content %}
-<a href="{% url 'userprofile:login' %}">Login</a>
+<div class="px-4">
+    <a class="block text-indigo-500" href="{% url 'userprofile:login' %}">Login</a>
+    <a class="block text-indigo-500" href="{% url 'userprofile:signup' %}">Signup</a>
+<div>
 {% endblock content %}

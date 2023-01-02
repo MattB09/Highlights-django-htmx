@@ -4,7 +4,9 @@ from django import forms
 class Highlight(forms.Form):
     text = forms.CharField(max_length=None, required=True, widget=forms.Textarea)
     book = forms.ModelChoiceField(queryset=None, required=True)
-    tags = forms.ModelMultipleChoiceField(queryset=None, required=False, widget=forms.CheckboxSelectMultiple)
+    tags = forms.ModelMultipleChoiceField(
+        queryset=None, required=False, widget=forms.CheckboxSelectMultiple
+    )
 
     def __init__(self, *args, **kwargs):
         tags = kwargs.pop("tags")
