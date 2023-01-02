@@ -1,4 +1,8 @@
 {
+  "engines" : { 
+    "npm" : ">=8.0.0 <9.0.0",
+    "node" : "v18.12.1"
+  },
   "devDependencies": {
     "tailwindcss": "^3.2.4"
   }
