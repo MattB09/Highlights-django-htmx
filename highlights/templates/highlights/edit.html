@@ -4,13 +4,7 @@
 <div class="text-2xl px-8 max-w-4xl mx-auto">
   <h1>Edit Highlight</h1>
 
-  <form action="." method="post">
-    {% csrf_token %}
-
-    {{ form.as_p }}
-
-    <button class="mt-2 py-4 px-6 bg-indigo-500 text-white rounded">Submit</button>
-  </form>
+  {% include "highlights/partials/highlight-form.html" %}
 </div>
 
 {% endblock content %}
