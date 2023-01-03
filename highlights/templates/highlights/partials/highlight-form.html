@@ -1,0 +1,23 @@
+<form action="." method="post">
+    {% csrf_token %}
+
+    {% for field in form %}
+        <div class="mt-1">
+            {% if field.errors %}
+                {% for err in field.errors %}
+                    <p class="{{ form.error_css_class }}">{{ err }}</p>
+                {% endfor %}
+            {% endif %}
+
+            {{ field.label_tag }}
+            {% if field.field.required %}<span class="text-indigo-800">*</span>{% endif %}
+            {%if field.name == 'tags' %}
+                <button _="on click halt the event" class="py-2 px-3 text-white bg-indigo-500 rounded">+</button>
+            {% endif %} 
+            {{ field }} 
+            
+        </div>
+    {% endfor %}
+
+    <button class="btn-primary">Submit</button>
+</form>

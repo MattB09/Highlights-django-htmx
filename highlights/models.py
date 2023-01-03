@@ -74,6 +74,10 @@ class HighlightQuerySet(models.QuerySet):
             return self.all()
         lookups = Q(text__icontains=query)
         return self.filter(lookups)
+    
+    def find_duplicates(self, text, id=None):
+        qs = self.filter(Q(text=text)).exclude(id=id)
+        return qs
 
 
 class Highlight(models.Model):
@@ -108,7 +112,7 @@ class Highlight(models.Model):
 
     def update(self, text, book, tags):
         print("BOOK", book)
-        print("BOOK", type(book))
+        print("TEXT", text)
         self.text = text
         self.book = book
         self.tags.set(tags)

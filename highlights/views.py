@@ -68,6 +68,7 @@ class Edit(mixins.LoginRequiredMixin, generic.FormView):
         kwargs = super().get_form_kwargs()
         kwargs["tags"] = models.Tag.objects.filter(user=self.request.user)
         kwargs["books"] = models.Book.objects.filter(user=self.request.user)
+        kwargs["highlight_id"] = self.highlight.id
         return kwargs
 
     def form_valid(self, form):
