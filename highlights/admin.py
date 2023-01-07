@@ -6,14 +6,14 @@ from highlights import models
 
 
 class AuthorAdmin(admin.ModelAdmin):
-    list_display = ("name", "slug")
+    list_display = ("name", "slug", "user")
     exclude = ("slug",)
     
 admin.site.register(models.Author, AuthorAdmin)
 
 
 class BookAdmin(admin.ModelAdmin):
-    list_display = ("title", "author", "book_no", "slug")
+    list_display = ("title", "author", "book_no", "slug", "user")
     exclude = ("slug",)
     
 admin.site.register(models.Book, BookAdmin)
@@ -23,7 +23,7 @@ admin.site.register(models.Highlight)
 
 
 class TagAdmin(admin.ModelAdmin):
-    list_display = ("tag", "slug",)
+    list_display = ("tag", "slug", "user")
     exclude = ("slug",)
 
 admin.site.register(models.Tag, TagAdmin)
