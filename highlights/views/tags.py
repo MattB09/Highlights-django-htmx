@@ -38,8 +38,11 @@ class Add(mixins.LoginRequiredMixin, generic.FormView):
             return HttpResponse("Success motha fuckaa!")
         return redirect("highlights:list")
     
-class HxRefreshTags(mixins.LoginRequiredMixin, generic.ListView):
-    template_name = "highlights/partials/list.html"
+class HxTagsFilter(mixins.LoginRequiredMixin, generic.ListView):
+    template_name = "highlights/partials/tags/list.html"
     model = models.Tag
     context_object_name = "tags"
+    
+    def get_queryset(self):
+        return models.Tag.objects.for_user(self.request.user)
     

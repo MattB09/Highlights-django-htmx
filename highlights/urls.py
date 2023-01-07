@@ -12,4 +12,5 @@ urlpatterns = [
     path("<str:pk>/confirm-delete/", highlights.confirm_delete, name="confirm-delete"),
     path("<str:pk>/delete/", highlights.delete, name="delete"),
     path("tags/add/", tags.Add.as_view(), name="tag-add"),
+    path("tags/hx-tag-filters", tags.HxTagsFilter.as_view(), name="hx-tags-filter")
 ]

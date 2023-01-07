@@ -5,8 +5,7 @@
     <div class="filters w-full lg:w-1/4 mb-5">
     <h3 class="mb-3 text-xl uppercase">Search</h3>
     
-    <!-- method="get" 
-    action="" -->
+    {% comment %} Search Form {% endcomment %}
     <form
         hx-trigger="submit, load"
         hx-get="{% url 'highlights:highlight-list' %}"  
@@ -31,6 +30,14 @@
         <li><a href="#" class="text-gray-500">Beds</a></li>
         <li><a href="#" class="text-gray-500">Tables</a></li>
     </ul> -->
+    <div 
+        id="tag-filter-container"
+        hx-get="{% url 'highlights:hx-tags-filter' %}" 
+        hx-trigger="revealed"
+        class="mt-2"
+    >
+    </div>
+
     </div>
 
     <div>
