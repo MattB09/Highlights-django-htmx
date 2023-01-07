@@ -1,0 +1,32 @@
+<form 
+    action="." 
+    method="post"
+    {% if hx_tag %}hx-post="."{% endif%}
+>
+    {% csrf_token %}
+
+    {% for err in form.non_field_errors %}
+        <p class="{{ form.error_css_class }}">{{ err }}</p>
+    {% endfor %}
+    
+    {% for field in form %}
+        <div class="mt-1">
+            {% if field.errors %}
+                {% for err in field.errors %}
+                    <p class="{{ form.error_css_class }}">{{ err }}</p>
+                {% endfor %}
+            {% endif %}
+
+            {{ field.label_tag }}
+
+            {% if field.field.required %}
+                <span class="text-indigo-800">*</span>
+            {% endif %}
+            
+            {{ field }} 
+            
+        </div>
+    {% endfor %}
+
+    <button class="btn-primary {% if hx_tag %}px-2 py-1 text-sm{% endif %}">Submit</button>
+</form>

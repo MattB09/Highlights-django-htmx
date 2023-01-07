@@ -18,14 +18,14 @@ class List(mixins.LoginRequiredMixin, generic.TemplateView):
         return context
 
 
-class SearchViewAPI(mixins.LoginRequiredMixin, generic.ListView):
+class HxSearchView(mixins.LoginRequiredMixin, generic.ListView):
     model = models.Highlight
     template_name = "highlights/partials/highlight-list.html"
     context_object_name = "highlights"
 
     def get_queryset(self):
         query = self.request.GET.get("query")
-        return models.Highlight.objects.search(query)
+        return models.Highlight.objects.search(self.request.user, query)
 
 
 class Add(mixins.LoginRequiredMixin, generic.FormView):
@@ -34,8 +34,9 @@ class Add(mixins.LoginRequiredMixin, generic.FormView):
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        kwargs["tags"] = models.Tag.objects.filter(user=self.request.user)
-        kwargs["books"] = models.Book.objects.filter(user=self.request.user)
+        kwargs["tags"] = models.Tag.objects.for_user(self.request.user)
+        kwargs["books"] = models.Book.objects.for_user(self.request.user)
+        kwargs["user"] = self.request.user
         return kwargs
 
     def form_valid(self, form):
@@ -68,6 +69,8 @@ class Edit(mixins.LoginRequiredMixin, generic.FormView):
         kwargs = super().get_form_kwargs()
         kwargs["tags"] = models.Tag.objects.filter(user=self.request.user)
         kwargs["books"] = models.Book.objects.filter(user=self.request.user)
+        kwargs["highlight_id"] = self.highlight.id
+        kwargs["user"] = self.request.user
         return kwargs
 
     def form_valid(self, form):
@@ -78,30 +81,6 @@ class Edit(mixins.LoginRequiredMixin, generic.FormView):
         )
         messages.add_message(self.request, messages.INFO, f"Highlight updated!")
         return redirect("highlights:list")
-
-
-@login_required
-def edit(request, pk):
-    highlight = get_object_or_404(models.Highlight, user=request.user, pk=pk)
-
-    if request.method == "POST":
-        form = forms.AddHighlight(request.POST, instance=highlight)
-
-        if form.is_valid():
-            highlight.save()
-            messages.add_message(request, messages.INFO, f"Highlight updated...")
-            return redirect("highlights:list")
-        else:
-            errors = form.errors.as_data()
-            print(errors)
-            for error in errors:
-                problems = [str(problem) for problem in errors[error]]
-                m = ",".join(problems)
-                print("m", m)
-                messages.add_message(request, messages.INFO, f"{error}: {m}")
-
-    form = forms.AddHighlight(instance=highlight)
-    return render(request, "highlights/edit.html", {"form": form})
 
 
 def confirm_delete(request, pk):
