@@ -21,4 +21,5 @@ urlpatterns = [
     path("user/", include("userprofile.urls")),
     path("highlights/", include("highlights.urls")),
     path("", include("core.urls")),
+    path("__reload__/", include("django_browser_reload.urls")),
 ]
