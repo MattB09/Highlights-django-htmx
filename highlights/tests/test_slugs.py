@@ -1,23 +1,14 @@
 from django.test import TestCase
-from django.contrib.auth import get_user_model
 
-from . import models
-from .utils import slugify
+from highlights import models
+from highlights.utils import slugify
+from highlights.tests import factories
 
-User = get_user_model()
-
-
-def create_user(**overwrites):
-    return User.objects.create(
-        username="testuser",
-        password="abc123",
-        **overwrites,
-    )
 
 
 class AuthorTestCase(TestCase):
     def setUp(self):
-        self.user = create_user()
+        self.user = factories.create_user()
         self.author = models.Author.objects.create(
             user=self.user,
             name="Test Author",
@@ -36,7 +27,7 @@ class AuthorTestCase(TestCase):
 
 class BookTestCase(TestCase):
     def setUp(self):
-        self.user = create_user()
+        self.user = factories.create_user()
         author = models.Author.objects.create(
             user=self.user,
             name="Test Author",
@@ -66,7 +57,7 @@ class BookTestCase(TestCase):
 
 class TagTestCase(TestCase):
     def setUp(self):
-        self.user = create_user()
+        self.user = factories.create_user()
         self.tag = models.Tag.objects.create(
             user=self.user,
             tag="Test Tag",
@@ -95,6 +86,5 @@ class TagTestCase(TestCase):
             instance = slugify.slugify_instance(duplicate, "tag")
             new_slugs.append(instance.slug)
 
-        print("NEW SLUGS", new_slugs)
         unique_slugs = list(set(new_slugs))
         self.assertEqual(len(new_slugs), len(unique_slugs))
